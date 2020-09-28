@@ -20,17 +20,12 @@ public class ConsistentHash {
 
         int successCount = 0 ,hash = 0;
         String virtualServer;
-        for( int i = 0 ; i < virtualNodeCount + 10 ;i++){
+        for( int i = 0 ; i <= virtualNodeCount  ;i++){
             virtualServer = server+"#"+i;
             hash = getHash(virtualServer);
-            if( sortedMap.containsKey(hash)){
-                continue;
-            }
-            sortedMap.put(hash,server+"#"+i);
-            successCount++;
-            if( successCount > virtualNodeCount){
-                break;
-            }
+            //可能会有hash冲突，忽略它
+            // 应该有更优雅的实现方式
+            sortedMap.put(hash,virtualServer);
         }
 
         return successCount;
